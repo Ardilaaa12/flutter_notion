@@ -1,73 +1,107 @@
 import 'package:flutter/material.dart';
-import 'Page2.dart';
+import 'dashboard.dart';
 
-void main() => runApp(MaterialApp(
-  debugShowCheckedModeBanner: false,
-  home: home(), //halaman awal ketika program di run
-));
+void main() {
+  runApp(const MyApp());
+}
 
-class home extends StatelessWidget {
-  const home({ Key? key }) : super(key: key);
-  
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/background.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-
-
-          child: Stack(
-            alignment: Alignment.center ,
+      backgroundColor: const Color.fromARGB(255, 22, 85, 114),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.shortestSide,
-                padding: EdgeInsets.all(20.0),
-                alignment: Alignment.center,
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
-                  color: Color.fromRGBO(216, 239, 255, 1),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-
-                        CircleAvatar(
-                          radius: 100.0,
-                          backgroundImage: AssetImage("images/fotoprofil.jpg"),
-                        ),
-                        Text("Ardila Rosliani",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18, color: Colors.black)
-                        ),
-
-                        Text("Vocational High School Student at SMK Wikrama Bogor",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: Color.fromARGB(248, 0, 0, 0))
-                        ),
-
-                        TextButton(onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Page2()),
-                            );
-                        }, child: Text('See More')
-                        ),
-                      ],
-                    ),
+              Text(
+                "Silahkan Masukan Email dan Password Anda!",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Mengubah warna teks menjadi putih
+                  ),
+                ), // Rata kiri
+              SizedBox(height: 10), // Spasi antara teks dan input email
+              // Input Email
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(height: 20), // Spasi antara input
+
+              // Input Password
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              SizedBox(height: 20), // Spasi antara input
+
+              // Tombol Login
+              ElevatedButton(
+                onPressed: () {
+                  // Validasi input (Contoh sederhana)
+                  if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Email dan Password harus diisi')),
+                    );
+                    return;
+                  }
+
+                  // Navigasi ke Dashboard
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Dashboard(),
+                    ),
+                  );
+                },
+                child: Text("Login"),
               ),
             ],
           ),
-
+        ),
       ),
     );
   }
