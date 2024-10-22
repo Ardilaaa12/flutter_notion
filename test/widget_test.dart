@@ -7,8 +7,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:slicing_notion/dashboard.dart';
 
 import 'package:slicing_notion/main.dart';
+import 'package:slicing_notion/page1.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
